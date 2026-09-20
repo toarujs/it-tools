@@ -23,8 +23,8 @@ const collapsedCategories = useStorage<Record<string, boolean>>(
   {
     deep: true,
     serializer: {
-      read: v => (v ? JSON.parse(v) : null),
-      write: v => JSON.stringify(v),
+      read: (v) => (v ? JSON.parse(v) : null),
+      write: (v) => JSON.stringify(v),
     },
   },
 );
@@ -87,7 +87,7 @@ function getAnimationDuration(itemCount: number): number {
 
 // Function to check if any tool in the category is active
 function isCategoryActive(components: Tool[]): boolean {
-  return components.some(tool => tool.path === route.path);
+  return components.some((tool) => tool.path === route.path);
 }
 
 const menuOptions = computed(() =>
@@ -96,7 +96,7 @@ const menuOptions = computed(() =>
     isCollapsed: collapsedCategories.value[name],
     isActive: isCategoryActive(components),
     animationDuration: getAnimationDuration(components.length),
-    tools: components.map(tool => ({
+    tools: components.map((tool) => ({
       label: makeLabel(tool),
       icon: makeIcon(tool),
       key: tool.path,
@@ -112,7 +112,7 @@ async function scrollToActiveItem() {
     collapsedCategories.value[activeCategory.name] = false;
 
     // Wait for the entire animation to complete
-    await new Promise(resolve => setTimeout(resolve, getAnimationDuration(activeCategory.components.length) + 50));
+    await new Promise((resolve) => setTimeout(resolve, getAnimationDuration(activeCategory.components.length) + 50));
 
     // Scroll to the active menu item
     const menuContainer = menuContainerRefs.value[activeCategory.name];
@@ -234,6 +234,12 @@ const themeVars = useThemeVars();
   }
 }
 .category-container {
+  // Offscreen categories skip layout and paint entirely, which keeps the sider
+  // width transition and expand/collapse animations from re-laying-out all ~460
+  // menu items on every frame.
+  content-visibility: auto;
+  contain-intrinsic-size: auto 36px;
+
   .menu-container {
     display: grid;
     grid-template-rows: 1fr;

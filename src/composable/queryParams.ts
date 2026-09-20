@@ -36,9 +36,9 @@ function useQueryParam<T>({
   name,
   defaultValue,
 }: {
-  tool: string
-  name: string
-  defaultValue: T
+  tool: string;
+  name: string;
+  defaultValue: T;
 }): RemovableRef<T> {
   const type = typeof defaultValue;
   const transformer = transformers[type as keyof typeof transformers] ?? transformers.string;
@@ -61,9 +61,9 @@ function useQueryParamOrStorage<T>({
   storageName,
   defaultValue,
 }: {
-  name: string
-  storageName: string
-  defaultValue: T
+  name: string;
+  storageName: string;
+  defaultValue: T;
 }) {
   const type = typeof defaultValue;
   const transformer = transformers[type as keyof typeof transformers] ?? transformers.string;
@@ -112,8 +112,7 @@ function getITToolsSetting<T>(key: string, defaultValue: MaybeRef<T>) {
   if (key.includes(':')) {
     const [tool, subkey] = key.split(':');
     return ((itToolsSettings[tool] || {})[subkey] as T) ?? defaultValue;
-  }
-  else {
+  } else {
     return (itToolsSettings[key] as T) ?? defaultValue;
   }
 }

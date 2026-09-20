@@ -1,5 +1,7 @@
 import { pack, unpack } from 'byte-data';
 
+import { translate as t } from '@/plugins/i18n.plugin';
+
 export type Conversion = 'dec' | 'bin' | 'hex' | 'char';
 
 export function cleanHex(hex: string): string {
@@ -28,9 +30,9 @@ export function parseNumber(input: string | number): number | number[] {
   }
 
   if (/^0x[0-9a-fA-F]+$/.test(input)) {
-    return Number.parseInt(input.substring(2), 16);
+    return Number.parseInt(input.substring(2), 16); // Parse as hexadecimal
   } else if (/^0b[01]+$/.test(input)) {
-    return Number.parseInt(input.substring(2), 2);
+    return Number.parseInt(input.substring(2), 2); // Parse as binary
   }
 
   return [...input].map((c) => c.codePointAt(0) || 0);
@@ -125,7 +127,10 @@ export function decodeStruct({ struct, hexArray }: { struct: object; hexArray: U
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         if (Array.isArray(obj[key])) {
           throw new TypeError(
-            `Cannot decode a struct with array key, key must be expressed as string with fixed length: ${key}`,
+            t(
+              'tools.hex-converter.service.text.cannot-decode-a-struct-with-array-key-key-must-be-expressed-as-string-with-fixed-length',
+              [key],
+            ),
           );
         } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
           result[key] = readMember(obj[key]);
@@ -135,7 +140,13 @@ export function decodeStruct({ struct, hexArray }: { struct: object; hexArray: U
           for (let i = 0; i < coderOption.size; i++) {
             const dataSize = Math.ceil(coderOption.type.bits / 8);
             if (offset + dataSize > hexArray.length) {
-              throw new Error(`Bad buffer length reading key '${key}' (${obj[key]}) at offset ${offset}`);
+              throw new Error(
+                t('tools.hex-converter.service.text.bad-buffer-length-reading-key-obj-key-at-offset-offset', [
+                  key,
+                  obj[key],
+                  offset,
+                ]),
+              );
             }
             arr.push(coderOption.formatter(unpack(hexArray, coderOption.type, offset), coderOption.type.bits));
             offset += dataSize;
@@ -171,7 +182,11 @@ export function encodeStruct({ struct, jsonObject }: { struct: object; jsonObjec
           }
           if (Array.isArray(value) && value.length !== coderOption.size) {
             throw new TypeError(
-              `Unexpected array size for key '${key}': expected ${coderOption.size} elements, got ${value.join(',')}`,
+              t('tools.hex-converter.service.text.unexpected-array-size-key-value-expected-coderoption-size-elements', [
+                key,
+                value.join(','),
+                coderOption.size,
+              ]),
             );
           }
           const valueArr = !Array.isArray(value) ? [value] : value;
@@ -179,7 +194,7 @@ export function encodeStruct({ struct, jsonObject }: { struct: object; jsonObjec
             buffer = [...buffer, ...pack(valueArr[i], coderOption.type)];
           }
         } else {
-          throw new TypeError(`Unexpected key '${key}': ${obj[key]}`);
+          throw new TypeError(t('tools.hex-converter.service.text.unexpected-key-obj-key', [key, obj[key]]));
         }
       }
     }
