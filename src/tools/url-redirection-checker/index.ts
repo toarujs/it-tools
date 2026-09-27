@@ -1,9 +1,10 @@
+import { translate as t } from '@/plugins/i18n.plugin';
 import { defineTool } from '../tool';
 
 export const tool = defineTool({
-  name: 'URL Redirection Checker',
+  name: t('tools.url-redirection-checker.title'),
   path: '/url-redirection-checker',
-  description: 'Check if a URL redirects to another URL.',
+  description: t('tools.url-redirection-checker.description'),
   keywords: ['url', 'redirection', 'checker'],
   component: () => import('./url-redirection-checker.vue'),
   icon: defineAsyncComponent(() => import('@vicons/tabler/es/Direction')),

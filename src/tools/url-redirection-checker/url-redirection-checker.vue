@@ -115,43 +115,46 @@ async function runRedirectChain() {
     </details>
 
     <n-form label-placement="left" label-width="100px" mb-2>
-      <n-form-item label="URL:">
-        <n-input v-model:value="url" placeholder="https://example.com" />
+      <n-form-item :label="t('tools.url-redirection-checker.texts.label-url')">
+        <n-input
+          v-model:value="url"
+          :placeholder="t('tools.url-redirection-checker.texts.placeholder-https-example-com')"
+        />
       </n-form-item>
 
-      <n-form-item label="Method:">
+      <n-form-item :label="t('tools.url-redirection-checker.texts.label-method')">
         <n-select
           v-model:value="method"
           :options="[
-            { label: 'GET', value: 'GET' },
-            { label: 'HEAD', value: 'HEAD' },
+            { label: t('tools.url-redirection-checker.texts.label-get'), value: 'GET' },
+            { label: t('tools.url-redirection-checker.texts.label-head'), value: 'HEAD' },
           ]"
         />
       </n-form-item>
 
-      <n-form-item label="User Agent:">
+      <n-form-item :label="t('tools.url-redirection-checker.texts.label-user-agent')">
         <n-input v-model:value="userAgent" />
       </n-form-item>
 
-      <n-form-item label="Max Hops:">
+      <n-form-item :label="t('tools.url-redirection-checker.texts.label-max-hops')">
         <n-input-number v-model:value="maxHops" :min="1" :max="50" />
       </n-form-item>
 
       <n-space justify="center">
-        <n-form-item label="Include Body Preview" label-width="auto">
+        <n-form-item :label="t('tools.url-redirection-checker.texts.label-include-body-preview')" label-width="auto">
           <n-switch v-model:value="includeBody" />
         </n-form-item>
 
-        <n-form-item v-if="includeBody" label="Preview Bytes:" ml-3>
+        <n-form-item v-if="includeBody" :label="t('tools.url-redirection-checker.texts.label-preview-bytes')" ml-3>
           <n-input-number v-model:value="previewBytes" :min="0" :max="50000" />
         </n-form-item>
       </n-space>
     </n-form>
 
     <n-space justify="center" mb-2>
-      <n-button :loading="loading" type="primary" :disabled="!url" @click="runRedirectChain">
-        Inspect Redirect Chain
-      </n-button>
+      <n-button :loading="loading" type="primary" :disabled="!url" @click="runRedirectChain">{{
+        t('tools.url-redirection-checker.texts.tag-inspect-redirect-chain')
+      }}</n-button>
     </n-space>
 
     <c-alert v-if="error" type="error" mb-2>
@@ -159,33 +162,50 @@ async function runRedirectChain() {
     </c-alert>
 
     <!-- Warnings -->
-    <n-alert v-if="result?.warnings?.length" type="warning" title="Warnings" mb-2>
+    <n-alert
+      v-if="result?.warnings?.length"
+      type="warning"
+      :title="t('tools.url-redirection-checker.texts.title-warnings')"
+      mb-2
+    >
       <ul>
         <li v-for="w in result.warnings" :key="w">{{ w }}</li>
       </ul>
     </n-alert>
 
-    <c-card title="Summary" v-if="result" mb-2>
-      <input-copyable mb-1 label="Input URL:" label-width="100px" label-position="left" :value="result.input_url" />
-      <input-copyable mb-1 label="Final URL:" label-width="100px" label-position="left" :value="result.final_url" />
+    <c-card :title="t('tools.url-redirection-checker.texts.title-summary')" v-if="result" mb-2>
       <input-copyable
-        label="Hop Count:"
+        mb-1
+        :label="t('tools.url-redirection-checker.texts.label-input-url')"
+        label-width="100px"
+        label-position="left"
+        :value="result.input_url"
+      />
+      <input-copyable
+        mb-1
+        :label="t('tools.url-redirection-checker.texts.label-final-url')"
+        label-width="100px"
+        label-position="left"
+        :value="result.final_url"
+      />
+      <input-copyable
+        :label="t('tools.url-redirection-checker.texts.label-hop-count')"
         label-width="100px"
         label-position="left"
         :value="result.hop_count.toString()"
       />
     </c-card>
 
-    <c-card title="Redirect Chain" v-if="result" mb-2>
+    <c-card :title="t('tools.url-redirection-checker.texts.title-redirect-chain')" v-if="result" mb-2>
       <n-table :bordered="true">
         <thead>
           <tr>
-            <th>#</th>
-            <th>URL</th>
-            <th>Status</th>
-            <th>Duration</th>
-            <th>Redirect</th>
-            <th>Location</th>
+            <th>{{ t('tools.url-redirection-checker.texts.tag-') }}</th>
+            <th>{{ t('tools.url-redirection-checker.texts.tag-url') }}</th>
+            <th>{{ t('tools.url-redirection-checker.texts.tag-status') }}</th>
+            <th>{{ t('tools.url-redirection-checker.texts.tag-duration') }}</th>
+            <th>{{ t('tools.url-redirection-checker.texts.tag-redirect') }}</th>
+            <th>{{ t('tools.url-redirection-checker.texts.tag-location') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -213,7 +233,7 @@ async function runRedirectChain() {
             <tr>
               <td colspan="6">
                 <details>
-                  <summary>Headers & Body Preview</summary>
+                  <summary>{{ t('tools.url-redirection-checker.texts.tag-headers-body-preview') }}</summary>
                   <textarea-copyable
                     v-if="hop.headers"
                     word-wrap
@@ -222,9 +242,11 @@ async function runRedirectChain() {
                     mb-1
                   />
                   <textarea-copyable v-if="hop.body_preview" word-wrap :value="hop.body_preview" mb-1 />
-                  <span v-else>-</span>
+                  <span v-else>{{ t('tools.url-redirection-checker.texts.tag-') }}</span>
                   <n-space justify="center">
-                    <n-tag v-if="hop.body_truncated" type="warning">Truncated</n-tag>
+                    <n-tag v-if="hop.body_truncated" type="warning">{{
+                      t('tools.url-redirection-checker.texts.tag-truncated')
+                    }}</n-tag>
                   </n-space>
                 </details>
               </td>

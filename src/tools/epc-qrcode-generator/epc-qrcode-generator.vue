@@ -132,7 +132,7 @@ const generateQr = () => {
 };
 
 const { download } = useDownloadFileFromBase64({ source: qrcode, filename: 'qr-code.png' });
-const { copy } = useCopy({ source: epcPayload, text: 'Copied to clipboard' });
+const { copy } = useCopy({ source: epcPayload, text: t('tools.epc-qrcode-generator.texts.text-copied-to-clipboard') });
 </script>
 
 <template>
@@ -152,53 +152,61 @@ const { copy } = useCopy({ source: epcPayload, text: 'Copied to clipboard' });
       label-width="150"
       label-placement="left"
     >
-      <NFormItem label="Beneficiary Name:" path="beneficiary">
-        <NInput v-model:value="beneficiary" placeholder="Beneficiary name" />
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-beneficiary-name')" path="beneficiary">
+        <NInput
+          v-model:value="beneficiary"
+          :placeholder="t('tools.epc-qrcode-generator.texts.placeholder-beneficiary-name')"
+        />
       </NFormItem>
 
-      <NFormItem label="Account (IBAN):" path="iban">
-        <NInput v-model:value="iban" placeholder="FR76..." />
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-account-iban')" path="iban">
+        <NInput v-model:value="iban" :placeholder="t('tools.epc-qrcode-generator.texts.placeholder-fr76')" />
       </NFormItem>
 
-      <NFormItem label="BIC:" path="bic">
-        <NInput v-model:value="bic" placeholder="Bank BIC (optional)" />
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-bic')" path="bic">
+        <NInput
+          v-model:value="bic"
+          :placeholder="t('tools.epc-qrcode-generator.texts.placeholder-bank-bic-optional')"
+        />
       </NFormItem>
 
-      <NFormItem label="Amount (EUR):" path="amount">
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-amount-eur')" path="amount">
         <NInputNumber v-model:value="amount" :min="0.01" :precision="2" />
       </NFormItem>
 
-      <NFormItem label="Payment Reference:" path="reference">
-        <NInput v-model:value="reference" placeholder="Optional" />
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-payment-reference')" path="reference">
+        <NInput v-model:value="reference" :placeholder="t('tools.epc-qrcode-generator.texts.placeholder-optional')" />
       </NFormItem>
 
-      <NFormItem label="Purpose:" path="remittance">
-        <NInput v-model:value="remittance" placeholder="Optional" />
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-purpose')" path="remittance">
+        <NInput v-model:value="remittance" :placeholder="t('tools.epc-qrcode-generator.texts.placeholder-optional')" />
       </NFormItem>
 
-      <NFormItem label="Version:" path="version">
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-version')" path="version">
         <NSelect
           v-model:value="version"
           :options="[
-            { label: 'V1', value: '001' },
-            { label: 'V2', value: '002' },
+            { label: t('tools.epc-qrcode-generator.texts.label-v1'), value: '001' },
+            { label: t('tools.epc-qrcode-generator.texts.label-v2'), value: '002' },
           ]"
         />
       </NFormItem>
 
-      <NFormItem label="Foreground color:">
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-foreground-color')">
         <NColorPicker v-model:value="foreground" :modes="['hex']" />
       </NFormItem>
-      <NFormItem label="Background color:">
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-background-color')">
         <NColorPicker v-model:value="background" :modes="['hex']" />
       </NFormItem>
 
-      <NFormItem label="QR Size:" path="size">
+      <NFormItem :label="t('tools.epc-qrcode-generator.texts.label-qr-size')" path="size">
         <NInputNumber v-model:value="size" :min="128" :max="2048" />
       </NFormItem>
 
       <NSpace justify="center">
-        <NButton type="primary" @click="generateQr">Generate QR</NButton>
+        <NButton type="primary" @click="generateQr">{{
+          t('tools.epc-qrcode-generator.texts.tag-generate-qr')
+        }}</NButton>
       </NSpace>
     </NForm>
 
@@ -207,12 +215,12 @@ const { copy } = useCopy({ source: epcPayload, text: 'Copied to clipboard' });
     <div v-if="qrcode" mb-2>
       <div flex flex-col items-center gap-3>
         <img alt="wifi-qrcode" :src="qrcode" :width="size" />
-        <NButton @click="download"> Download QRCode </NButton>
+        <NButton @click="download">{{ t('tools.epc-qrcode-generator.texts.tag-download-qrcode') }}</NButton>
       </div>
     </div>
     <div v-if="qrcode">
       <div flex flex-col items-center gap-3>
-        <NButton @click="copy()"> Copy QRCode text </NButton>
+        <NButton @click="copy()">{{ t('tools.epc-qrcode-generator.texts.tag-copy-qrcode-text') }}</NButton>
       </div>
     </div>
   </div>
