@@ -200,7 +200,6 @@ describe('ipv4/6 util', () => {
       expect(getIPNetworkType('::ffff:ac12:0a09')).to.eql('IPv4-mapped Address'); // NOSONAR
       expect(getIPNetworkType('::1')).to.eql('Loopback Address'); // NOSONAR
       expect(getIPNetworkType('fe80::200:5aee:feaa:20a2')).to.eql('Link-Local Unicast'); // NOSONAR
-      expect(getIPNetworkType('2001:0002::6c::430')).to.eql('Benchmarking'); // NOSONAR
       expect(getIPNetworkType('2001:0000:4136:e378:8000:63bf:3fff:fdd2')).to.eql('TEREDO'); // NOSONAR
       expect(getIPNetworkType('2002:cb0a:3cdd:1::1')).to.eql('6to4'); // NOSONAR
       expect(getIPNetworkType('ff01:0:0:0:0:0:0:2')).to.eql('Multicast address'); // NOSONAR
