@@ -20,7 +20,7 @@ import { naive } from './plugins/naive.plugin';
 
 import App from './App.vue';
 import router from './router';
-import { i18nPlugin } from './plugins/i18n.plugin';
+import { i18nPlugin, prepareI18n } from './plugins/i18n.plugin';
 import { toolsSettings } from './tools-settings';
 
 import store from './tools/pomodoro-timer/app/store';
@@ -80,6 +80,8 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
     window.addEventListener('load', registerServiceWorker, { once: true });
   }
 }
+
+await prepareI18n();
 
 const app = createApp(App);
 
