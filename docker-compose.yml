@@ -7,7 +7,4 @@ services:
     ports:
       - 8080:8080       # Since Docker base image is now nginx-unpriviledged, docker image now listen to 8080 and no more 80.
     environment:
-      VITE_LANGUAGE: ${VITE_LANGUAGE:-zh}
-      HEADER_INJECT: |
-        <script defer src="https://bak.toarujs.com:3001/script.js" data-website-id="43a0dca4-8137-4f4b-844c-9bc7fef15f51"></script>
-      RELAX_CROSS_ORIGIN: "true"
+      VITE_LANGUAGE: ${VITE_LANGUAGE:-en}

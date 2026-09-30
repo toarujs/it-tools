@@ -370,11 +370,11 @@ or set `RELAX_CROSS_ORIGIN=true` to drop COEP/COOP -- some WASM-backed tools wil
 stop working.
 
 A WAF or reverse proxy in front of the tracker origin can still drop the snippet even
-when it is present in `<head>`. Typical case: the app is on `https://host:17863/` and
-Umami is on `https://host:3001/script.js`; the WAF (SafeLine / Tengine and similar)
-intercepts `script.js` and `POST /api/send` as an attack, so the page loads and
-analytics stay empty. Allow those two paths on the tracker site, or the collect
-requests never reach Umami.
+when it is present in `<head>`. Allowlist the tracker **script** and its **collect
+endpoint** on the tracker origin (Umami: `GET /script.js` and `POST /api/send`;
+Plausible: `GET /js/script.js` and `POST /api/event`). Bot challenges or 403s on
+those paths leave analytics empty while the app itself loads normally. The allowlist
+belongs on the tracker site; IT-Tools does not proxy those requests.
 
 ## To add authentication
 
