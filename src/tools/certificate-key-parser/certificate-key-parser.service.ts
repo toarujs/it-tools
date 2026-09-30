@@ -26,7 +26,16 @@ import {
   getSignatureLabelValues,
 } from './certificate-key-parser.infos';
 
-export async function getKeysOrCertificatesInfosAsync(keyOrCertificateValue: string | Buffer, passphrase: string) {
+import { translate as t } from '@/plugins/i18n.plugin';
+
+export async function getKeysOrCertificatesInfosAsync(
+  keyOrCertificateValue: string | Buffer,
+  passphrase: string,
+  add_missing_type: string | null = null,
+) {
+  if (add_missing_type && !keyOrCertificateValue.toString().trim().startsWith('-----BEGIN')) {
+    keyOrCertificateValue = `-----BEGIN ${add_missing_type}-----\n${keyOrCertificateValue.toString().trim()}\n-----END ${add_missing_type}-----`;
+  }
   const parts = keyOrCertificateValue
     .toString()
     .trim()
@@ -152,8 +161,8 @@ export async function getKeyOrCertificateInfosAsync(keyOrCertificateValue: strin
     return {
       values: [
         {
-          label: 'Type',
-          value: 'Unknown format or invalid passphrase',
+          label: t('tools.certificate-key-parser.service.text.type'),
+          value: t('tools.certificate-key-parser.service.text.unknown-format-or-invalid-passphrase'),
         },
       ],
     };

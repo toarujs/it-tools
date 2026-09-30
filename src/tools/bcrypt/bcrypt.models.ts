@@ -10,18 +10,18 @@ Intl.DurationFormat ??= class DurationFormat {
 
 export type Update<Result> =
   | {
-    kind: 'progress'
-    progress: number
-  }
+      kind: 'progress';
+      progress: number;
+    }
   | {
-    kind: 'success'
-    value: Result
-    timeTakenMs: number
-  }
+      kind: 'success';
+      value: Result;
+      timeTakenMs: number;
+    }
   | {
-    kind: 'error'
-    message: string
-  };
+      kind: 'error';
+      message: string;
+    };
 
 // generic type for the callback versions of bcryptjs's `hash` and `compare`
 export type BcryptFn<Param, Result> = (
@@ -32,8 +32,8 @@ export type BcryptFn<Param, Result> = (
 ) => void;
 
 interface BcryptWithProgressOptions {
-  signal: AbortSignal
-  timeoutMs: number
+  signal: AbortSignal;
+  timeoutMs: number;
 }
 
 export async function* bcryptWithProgressUpdates<Param, Result>(
@@ -77,7 +77,7 @@ export async function* bcryptWithProgressUpdates<Param, Result>(
         nextValue({ kind: 'progress', progress: 0 });
         if (signal.reason instanceof DOMException && signal.reason.name === 'TimeoutError') {
           const message = t('tools.bcrypt.texts.timed-out-after-timeout-period', {
-              timeoutPeriod: new (Intl.DurationFormat as any)(getCurrentLocale(), { style: 'long' }).format({
+            timeoutPeriod: new Intl.DurationFormat(getCurrentLocale(), { style: 'long' }).format({
               seconds: Math.round(timeoutMs / 1000),
             }),
           });
@@ -87,8 +87,7 @@ export async function* bcryptWithProgressUpdates<Param, Result>(
 
         // throw inside callback to cancel execution of hashing/comparing
         throw signal.reason;
-      }
-      else {
+      } else {
         nextValue({ kind: 'progress', progress });
       }
     },

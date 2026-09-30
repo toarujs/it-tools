@@ -32,8 +32,7 @@ function convertComposeToBlueprint() {
     const blueprint = pangolinLabelsToBlueprint(labels);
 
     blueprintOutput.value = yaml.stringify(blueprint);
-  }
-  catch (err: any) {
+  } catch (err: any) {
     error.value = err.toString();
   }
 }
@@ -54,8 +53,7 @@ function convertBlueprintToLabels() {
     const labels = blueprintToLabels(blueprint, labelsAsArray.value ? 'array' : 'object');
 
     labelsOutput.value = yaml.stringify(labels);
-  }
-  catch (err: any) {
+  } catch (err: any) {
     error.value = err?.message ?? String(err);
   }
 }

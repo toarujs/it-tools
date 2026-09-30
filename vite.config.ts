@@ -84,6 +84,53 @@ function baseHref(base: string): Plugin {
   };
 }
 
+function headerInject(): Plugin {
+  return {
+    name: 'it-tools:header-inject',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html) {
+        const snippet = collectHeaderInject();
+        if (!snippet) {
+          return html;
+        }
+
+        if (!html.includes('<!-- HEADER_INJECT -->')) {
+          throw new Error('it-tools:header-inject: placeholder <!-- HEADER_INJECT --> missing from index.html');
+        }
+
+        return html.replace('<!-- HEADER_INJECT -->', () => snippet);
+      },
+    },
+  };
+}
+
+function collectHeaderInject(): string {
+  const parts: string[] = [];
+
+  if (process.env.HEADER_INJECT) {
+    parts.push(process.env.HEADER_INJECT);
+  }
+
+  for (let i = 1; i <= 30; i += 1) {
+    const value = process.env[`HEADER_INJECT_${i}`];
+    if (value) {
+      parts.push(value);
+    }
+  }
+
+  const file = process.env.HEADER_INJECT_FILE;
+  if (file) {
+    if (!fs.existsSync(file)) {
+      throw new Error(`it-tools:header-inject: HEADER_INJECT_FILE not found: ${file}`);
+    }
+    parts.push(fs.readFileSync(file, 'utf8').replace(/\n$/, ''));
+  }
+
+  return parts.join('\n');
+}
+
 // Locales are code-split: only en is bundled eagerly, the rest become lazy chunks fetched on
 // first use (see src/plugins/i18n.plugin.ts). VITE_AVAILABLE_LOCALES filters the locales
 // offered at runtime instead of trimming the build.
@@ -93,6 +140,7 @@ const includeLocales = [resolve(__dirname, 'src/tools/*/locales/**'), resolve(__
 export default defineConfig({
   plugins: [
     baseHref(baseUrl),
+    headerInject(),
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
@@ -133,15 +181,27 @@ export default defineConfig({
         // tool chunk and WASM binary (~160 MB) on first visit; hashed assets are
         // cached on demand as tools are opened. Set VITE_PWA_FULL_PRECACHE=true to
         // restore full offline precaching of everything.
+        // index.html is excluded: Docker HEADER_INJECT rewrites it at start-up, and a
+        // precached copy would pin the pre-inject document until the next SW update.
         globPatterns:
           process.env.VITE_PWA_FULL_PRECACHE === 'true' && !process.env.VITE_VERCEL_DEPLOY
             ? ['**\/*.{js,wasm,css,html}']
             : ['**\/*.{css,html}'],
+        globIgnores: ['**/index.html'],
         maximumFileSizeToCacheInBytes: 25 * 1024 ** 2,
         // Relative, like every other precache entry: workbox resolves them against the
         // service worker's own URL, so the same sw.js works under any deployment path.
-        navigateFallback: 'index.html',
         runtimeCaching: [
+          {
+            urlPattern: ({ sameOrigin, request }) => sameOrigin && request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'app-navigations',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 7 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
           {
             urlPattern: ({ sameOrigin, request }) =>
               sameOrigin && (request.destination === 'script' || request.destination === 'worker'),

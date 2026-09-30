@@ -54,7 +54,7 @@ const validColors = [
 ];
 
 function validateBands(bands: string[], count: number) {
-  return bands.length === count && bands.every(b => validColors.includes(b));
+  return bands.length === count && bands.every((b) => validColors.includes(b));
 }
 
 function convertBandsToNotation() {
@@ -62,7 +62,7 @@ function convertBandsToNotation() {
   bandsResult.value = '';
   bandPreview.value = [];
 
-  const bands = bandsInput.value.split(',').map(b => b.trim().toLowerCase());
+  const bands = bandsInput.value.split(',').map((b) => b.trim().toLowerCase());
   if (!validateBands(bands, bandCount.value)) {
     bandsError.value = t('tools.resistor-calculator.texts.error-enter-exactly-bands', {
       count: bandCount.value,
@@ -79,15 +79,6 @@ function convertBandsToNotation() {
   catch (e: any) {
     bandsError.value = t('tools.resistor-calculator.texts.error-conversion-failed', { error: e.toString() });
   }
-
-  try {
-    const [notation, tolerance] = bandsToNotation(bands, bands.length);
-    bandsResult.value = `${notation}Ω ±${tolerance}%`;
-    bandPreview.value = bands;
-  }
-  catch (e: any) {
-    bandsError.value = `Conversion failed. Check band order and values: ${e.toString()}`;
-  }
 }
 
 function convertNotationToBands() {
@@ -95,7 +86,11 @@ function convertNotationToBands() {
   notationBandsResult.value = [];
 
   try {
-    const [notation, tolerance] = notationInput.value.replace(/[Ω±%]/g, '').replace(/\s+/g, ' ').trim().split(' ');
+    const [notation, tolerance] = notationInput.value
+      .replace(/[Ω±%]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .split(' ');
     const bands = notationToBands([notation, Number(tolerance) || 1], notationBandCount.value);
     notationBandsResult.value = bands;
   }
@@ -118,13 +113,6 @@ function convertNumberToNotation() {
   }
   catch (e: any) {
     numberError.value = t('tools.resistor-calculator.texts.error-conversion-failed', { error: e.toString() });
-  }
-
-  try {
-    numberNotationResult.value = `${valueToNotation(numberInput.value)}Ω ±${tolerance.value}%`;
-  }
-  catch (e: any) {
-    numberError.value = `Conversion failed: ${e.toString()}`;
   }
 }
 
