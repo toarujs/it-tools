@@ -29,10 +29,18 @@ const totalMatches = ref(0);
 const regexWarning = ref('');
 
 const DANGEROUS_REGEX_PATTERNS = [
-  /\(\.\*\)\+/, /\(\.\+\)\+/, /\(\.\?\)\+/,
-  /\(\w\+\)\+/, /\(\w\*\)\+/, /\(\w\?\)\+/,
-  /\(\w+\*\)\+/, /\(\w+\+\)\+/, /\(\w+\?\)\+/,
-  /\([^)]+\)\+/, /\([^)]+\)\*/, /\([^)]+\)\?/,
+  /\(\.\*\)\+/,
+  /\(\.\+\)\+/,
+  /\(\.\?\)\+/,
+  /\(\w\+\)\+/,
+  /\(\w\*\)\+/,
+  /\(\w\?\)\+/,
+  /\(\w+\*\)\+/,
+  /\(\w+\+\)\+/,
+  /\(\w+\?\)\+/,
+  /\([^)]+\)\+/,
+  /\([^)]+\)\*/,
+  /\([^)]+\)\?/,
 ];
 
 function isRegexSafe(pattern: string): boolean {
@@ -45,8 +53,7 @@ function isRegexSafe(pattern: string): boolean {
     // eslint-disable-next-line no-new
     new RegExp(pattern);
     return true;
-  }
-  catch {
+  } catch {
     return false;
   }
 }

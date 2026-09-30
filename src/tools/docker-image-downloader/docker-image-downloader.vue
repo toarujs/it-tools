@@ -96,12 +96,10 @@ async function downloadImage() {
       title: 'Download started',
       description: `Downloading ${filename}`,
     });
-  }
-  catch (err: any) {
+  } catch (err: any) {
     error.value = err.message || 'Unknown error';
     message.error(error.value!);
-  }
-  finally {
+  } finally {
     loading.value = false;
   }
 }

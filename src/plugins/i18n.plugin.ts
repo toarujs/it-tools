@@ -65,13 +65,7 @@ export function readPersistedLocale(storage?: Storage | null): string | undefine
   }
 }
 
-export function resolveRequestedLocale({
-  persisted,
-  configured,
-}: {
-  persisted?: string;
-  configured?: string;
-}): string {
+export function resolveRequestedLocale({ persisted, configured }: { persisted?: string; configured?: string }): string {
   if (persisted?.trim()) {
     const normalized = persisted.trim().toLowerCase();
     const language = normalized.split('-')[0];

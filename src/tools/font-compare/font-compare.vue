@@ -176,8 +176,7 @@ function handleFontUpload(file: UploadFileInfo, index: number) {
         document.fonts.add(loadedFont);
         if (index === 0) {
           fontA.value.dynamicName = fontName;
-        }
-        else {
+        } else {
           fontB.value.dynamicName = fontName;
         }
       })

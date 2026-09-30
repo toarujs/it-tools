@@ -22,8 +22,7 @@ const transformers = {
     fromQuery: (value: string) => {
       try {
         return JSON.parse(value);
-      }
-      catch {
+      } catch {
         return null;
       }
     },

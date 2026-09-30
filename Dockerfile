@@ -1,5 +1,5 @@
 # build stage
-FROM --platform=$BUILDPLATFORM node:24-alpine AS build-stage
+FROM --platform=$BUILDPLATFORM node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 AS build-stage
 # Set environment variables for non-interactive npm installs
 ENV NPM_CONFIG_LOGLEVEL=warn
 ENV CI=true
@@ -18,9 +18,9 @@ COPY patches patches
 COPY stubs stubs
 # Alpine already has Node 24. Keep devEngines but ignore onFail so pnpm does
 # not fetch unofficial-builds musl binaries that this host cannot reach.
-RUN npm install -g pnpm@11 \
+RUN npm install -g pnpm@12.6.0 \
     && printf 'registry=%s\nreplace-registry-host=always\n' "${npm_config_registry}" > .npmrc \
-    && node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('package.json','utf8')); if (p.devEngines && p.devEngines.runtime) { p.devEngines.runtime.onFail='ignore'; } fs.writeFileSync('package.json', JSON.stringify(p, null, 2) + '\n')" \
+    && node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('package.json','utf8')); if (p.devEngines && p.devEngines.runtime) { p.devEngines.runtime.onFail='ignore'; } if (p.devEngines && p.devEngines.packageManager) { p.devEngines.packageManager.onFail='ignore'; } fs.writeFileSync('package.json', JSON.stringify(p, null, 2) + '\n')" \
     && pnpm i --ignore-scripts --no-frozen-lockfile
 COPY . .
 # Deliberately no BASE_URL here: the bundle is built path-agnostic (relative asset URLs
@@ -37,7 +37,7 @@ ENV VITE_VERCEL_ENV=production
 RUN ./node_modules/.bin/vite build
 
 # production stage
-FROM nginxinc/nginx-unprivileged:stable-alpine AS production-stage
+FROM nginxinc/nginx-unprivileged:stable-alpine@sha256:4714e0b1b2577eaa1a6131d07c958b67f0eb68e6d0521e90c6e5287db8cf0bc5 AS production-stage
 
 LABEL maintainer="ShareVB <sharevb@gmail.com>" \
       org.opencontainers.image.authors="ShareVB <sharevb@gmail.com>"

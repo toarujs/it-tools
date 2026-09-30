@@ -35,7 +35,7 @@ overrides:
   mermaid: ^11.16.1
   phin: ^3.7.1
   protocol-buffers-schema: ^3.6.1
-  undici: ^6.28.0
+  undici: ^7.25.0
   unhead: ^3.4.0
   uuid: ^11.1.1
   # @boxyhq/saml20 pins 0.9.10 exactly, which upstream deprecated for "critical
@@ -65,8 +65,12 @@ allowBuilds:
   protobufjs: false
   sharp: false
   tesseract.js: false
-  tree-sitter: true
-  tree-sitter-bash: true
+  # Native Node bindings for curlconverter's shell parser. The app only uses
+  # curlconverter in the browser, where its `browser` field swaps in
+  # web-tree-sitter (WASM), so the addon is never loaded. There is no
+  # linux-arm64 prebuild, and compiling it fails against Node 24's C++20 headers.
+  tree-sitter: false
+  tree-sitter-bash: false
   vue-demi: true
 
 minimumReleaseAgeExclude:

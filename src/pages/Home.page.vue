@@ -17,8 +17,7 @@ const homeCustomMarkdown = computedAsync(async () => {
     if (remoteCustomHomeMarkdownResponse.ok) {
       return await remoteCustomHomeMarkdownResponse.text();
     }
-  }
-  catch {}
+  } catch {}
   return '';
 });
 
@@ -151,7 +150,8 @@ onUnmounted(() => {
             rel="noopener"
             target="_blank"
             :aria-label="$t('home.follow.githubRepository')"
-          >GitHub</a>
+            >GitHub</a
+          >
           {{ $t('home.follow.thankYou') }}
           <n-icon :component="IconHeart" />
         </ColoredCard>

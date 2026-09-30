@@ -31,12 +31,14 @@ describe('generatePassword', () => {
   });
 
   it('rejects settings without usable characters', () => {
-    expect(() => generatePassword({
-      ...defaultOptions,
-      withUppercase: false,
-      withNumbers: false,
-      withSymbols: false,
-      excludedChars: 'abcdefghijklmnopqrstuvwxyz',
-    })).toThrow(RangeError);
+    expect(() =>
+      generatePassword({
+        ...defaultOptions,
+        withUppercase: false,
+        withNumbers: false,
+        withSymbols: false,
+        excludedChars: 'abcdefghijklmnopqrstuvwxyz',
+      }),
+    ).toThrow(RangeError);
   });
 });

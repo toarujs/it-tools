@@ -75,8 +75,7 @@ function convertBandsToNotation() {
     const [notation, tolerance] = bandsToNotation(bands, bands.length);
     bandsResult.value = `${notation}Ω ±${tolerance}%`;
     bandPreview.value = bands;
-  }
-  catch (e: any) {
+  } catch (e: any) {
     bandsError.value = t('tools.resistor-calculator.texts.error-conversion-failed', { error: e.toString() });
   }
 }
@@ -93,8 +92,7 @@ function convertNotationToBands() {
       .split(' ');
     const bands = notationToBands([notation, Number(tolerance) || 1], notationBandCount.value);
     notationBandsResult.value = bands;
-  }
-  catch (e: any) {
+  } catch (e: any) {
     notationError.value = t('tools.resistor-calculator.texts.error-invalid-notation-format', { error: e.toString() });
   }
 }
@@ -110,8 +108,7 @@ function convertNumberToNotation() {
 
   try {
     numberNotationResult.value = `${valueToNotation(numberInput.value)}Ω ±${tolerance.value}%`;
-  }
-  catch (e: any) {
+  } catch (e: any) {
     numberError.value = t('tools.resistor-calculator.texts.error-conversion-failed', { error: e.toString() });
   }
 }
@@ -122,8 +119,7 @@ function convertNotationToNumber() {
 
   try {
     notationToNumberResult.value = notationToValue(notationToNumberInput.value);
-  }
-  catch (e: any) {
+  } catch (e: any) {
     notationToNumberError.value = t('tools.resistor-calculator.texts.error-invalid-notation-format', {
       error: e.toString(),
     });
@@ -165,9 +161,7 @@ function getColorHex(color: string) {
           v-model:value="bandsInput"
           :placeholder="t('tools.resistor-calculator.texts.placeholder-e-g-red-violet-brown-gold')"
         />
-        <n-p mb-2>
-          {{ t('tools.resistor-calculator.texts.label-valid-colors') }} {{ validColors.join(', ') }}
-        </n-p>
+        <n-p mb-2> {{ t('tools.resistor-calculator.texts.label-valid-colors') }} {{ validColors.join(', ') }} </n-p>
         <n-space justify="center" mb-2>
           <n-button @click="convertBandsToNotation">
             {{ t('tools.resistor-calculator.texts.tag-convert') }}

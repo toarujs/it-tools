@@ -59,9 +59,9 @@ function inputHandler(type: Formats, text: string) {
         if (pair[1]) {
           pair[1] = pair[1]
             // trim single quotes at beginning and end
-            .replace(/^['](.+(?=[']$))[']$/, '$1')
-            // trim out double quotes
-            .replace(/^"(.+)"$/, '$1');
+            .replace(/^['](.+(?=[']$))[']$/, '$1') // https://stackoverflow.com/a/19156197/1098564
+            // trim out double quotes; values can have trailing spaces after newline flattening
+            .replace(/"([^"]+(?="))"/g, '$1');
         }
         setAcc(acc, ...pair);
         return acc;

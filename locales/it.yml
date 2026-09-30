@@ -1178,6 +1178,8 @@ tools:
       tag-refresh-key-pair: Aggiorna coppia di chiavi
       tag-public-key: Chiave pubblica
       tag-private-key: Chiave privata
+      tag-fingerprint: Impronta digitale
+      tag-md5-fingerprint: Impronta digitale (MD5)
     text:
       bits-should-be-256-less-than-bits-less-than-16384-and-be-a-multiple-of-8:
         I bit devono essere compresi tra 256 e 16384 e devono essere multipli di
@@ -2567,6 +2569,8 @@ tools:
       tag-refresh-key-pair: Aggiorna coppia di chiavi
       tag-public-key: Chiave pubblica
       tag-private-key: Chiave privata
+      tag-fingerprint: Impronta digitale
+      tag-md5-fingerprint: Impronta digitale (MD5)
   ed25519-key-pair-generator:
     title: Generatore di coppie di chiavi Ed25519
     description: Genera nuove chiavi pubbliche e private Ed25519 casuali (con o
@@ -2586,6 +2590,8 @@ tools:
       tag-refresh-key-pair: Aggiorna coppia di chiavi
       tag-public-key: Chiave pubblica
       tag-private-key: Chiave privata
+      tag-md5-fingerprint: Impronta digitale (MD5)
+      tag-fingerprint: Impronta digitale
   energy-computer:
     title: Consumo energetico e spese del computer
     description: Calcola il consumo e la spesa energetica
@@ -3177,6 +3183,7 @@ tools:
       title-schema-validation-errors: Errori di convalida dello schema
       label-indent-size-0-compact: "Dimensione rientro (0 = Compatto):"
       repair-json: Ripara JSON
+      label-auto-height: Altezza automatica
     externalAccess: Questo strumento può scaricare uno schema JSON da
       https://www.schemastore.org quando viene richiesta la convalida. Nessun
       dato viene inviato esternamente.
@@ -3520,6 +3527,18 @@ tools:
       tag-export-as-png: Esporta come PNG
       tag-export-as-jpg: Esporta come JPG
       tag-export-as-svg: Esporta come SVG
+      tag-showing-last-valid-diagram: Visualizzazione dell'ultimo diagramma valido
+      tag-hint-ctrl-scroll-to-zoom: Tieni premuto Ctrl (o ⌘) e scorri con la rotellina
+        del mouse per ingrandire.
+      label-diagram-preview: "Anteprima del diagramma: trascina o usa i tasti freccia
+        per spostarti, + e - per ingrandire/rimpicciolire"
+      label-zoom-level-reset: Zoom {zoom}%, clicca per reimpostare al 100%
+      title-zoom-in: Ingrandisci
+      title-zoom-out: Riduci lo zoom
+      title-reset-zoom: Reimposta lo zoom al 100%
+      title-fit-view: Schema di adattamento da visualizzare
+      title-fullscreen: A schermo intero
+      title-exit-fullscreen: Esci dalla modalità a schermo intero
   mime-converter:
     title: Convertitore di codifica MIME
     description: Converti da/a formato MIME Encoded-Word (oggetto della posta)
@@ -4191,6 +4210,11 @@ tools:
       title-country-to-timezones: Paese a fusi orari
       label-country: Paese
       title-timezones-to-countries: Fusi orari dei paesi
+      title-posix-timezones: Stringhe POSIX dei fusi orari
+      search-posix-timezones: Inserisci un fuso orario o una stringa POSIX per effettuare la ricerca
+      tag-no-results: Nessun risultato
+      tag-timezone: Fuso orario
+      tag-posix: Stringa POSIX
   torrent-to-magnet:
     title: Torrent a Magnet
     description: Converti un file torrent in un URL Magnet
@@ -5989,6 +6013,9 @@ tools:
       tag-corners-square-options: Opzioni angoli quadrati
       tag-small-terminal: Piccolo Terminale
       title-image: Immagine
+      label-qr-code-embeddable-dataurl: "URL dei dati dell'immagine del codice QR:"
+      link-qr-code-open-embeddable-link: Apri il link incorporabile
+      label-qr-code-image-viewer: Codice QR incorporabile
   ies-lighting-guidelines:
     title: Linee guida per l'illuminazione IES
     description: Cerca nelle attuali raccomandazioni sull'illuminamento
@@ -9953,6 +9980,261 @@ tools:
         random-tool: Strumento casuale
         tools: Utensili
   external-self-hosted-required: È richiesto un server esterno self-hosted.
+  markdown-format-converter:
+    title: Convertitore di formato
+    description: Converti tra i formati standard Markdown, Obsidian, Logseq, Slack,
+      Jira e altri.
+    texts:
+      label-source-format: Formato sorgente
+      label-target-format: Formato di destinazione
+      placeholder-input-markdown: Incolla o digita qui il tuo codice Markdown
+        standard, Obsidian o Logseq...
+      label-input-markdown: Input Markdown
+      label-converted-output: Output convertito
+      label-text: Testo
+      label-preview: Anteprima
+  restic-command-generator:
+    title: Generatore di comandi Restic
+    description: "Genera comandi CLI di restic per ripristinare un repository
+      Backrest o un repository restic standard: un'intera snapshot, solo alcuni
+      file o un mount navigabile."
+    texts:
+      intro: "Solo generatore: qui non viene eseguito nulla e nulla di ciò che digiti
+        esce dal tuo browser. Descrivi il tuo repository, scegli cosa devi
+        recuperare e copia il frammento di codice della shell."
+      title-repository: Archivio
+      label-backend: Backend
+      backend-s3: Compatibile con S3 (Backblaze B2, MinIO, Wasabi, AWS...)
+      backend-b2: Backblaze B2 (nativo)
+      backend-local: Percorso locale o disco montato
+      backend-sftp: SFTP
+      backend-rest: server REST REST
+      backend-rclone: Rclone
+      backend-azure: Archiviazione BLOB di Azure
+      backend-gs: Archiviazione Google Cloud
+      backend-raw: Altro (URI del repository grezzo)
+      label-local-path: Percorso del repository
+      label-endpoint: Punto finale
+      label-bucket: Secchio
+      label-prefix: Percorso nel secchio
+      label-region: Regione (facoltativa)
+      label-user: Utente
+      label-host: Ospite
+      label-port: Porta (opzionale)
+      label-path: Percorso del repository
+      label-url: URL del server
+      label-remote: Rclone remoto e percorso
+      label-container: Contenitore
+      label-raw-repository: URI del repository
+      label-repository-mode: Repository passato come
+      repository-flag: -r flag su ogni comando
+      repository-env: variabile d'ambiente RESTIC_REPOSITORY
+      label-repository-uri: URI del repository
+      label-password: Password del repository
+      password-prompt: Richiedilo nella shell (leggi -rs, non viene memorizzato nella
+        cronologia)
+      password-file: --password-file
+      password-command: --password-command
+      password-placeholder: Esportazione di RESTIC_PASSWORD con un segnaposto
+      password-none: Già impostato nel mio ambiente
+      label-password-file: Password File
+      label-password-command: comando password
+      label-credentials: Credenziali di backend
+      credentials-prompt: Richiesta del segreto nel guscio
+      credentials-placeholder: Esportali con i segnaposto
+      credentials-none: Già impostato nel mio ambiente
+      label-account-id: ID chiave / nome account
+      hint-secrets: 'Nessun segreto viene mai inserito nel comando generato: le
+        opzioni del prompt li leggono nella shell con "read -rs" in modo che non
+        vengano memorizzati nella cronologia.'
+      title-operation: Cosa vuoi fare?
+      operation-restore: ripristina — riscrivi i file da un'istantanea sul disco
+      operation-dump: dump — trasmette in streaming un file o una cartella da uno snapshot
+      operation-mount: mount — esplora il repository come un filesystem
+      operation-snapshots: snapshot — elenca gli snapshot del repository
+      operation-ls: ls — elenca i file all'interno di uno snapshot
+      operation-find: trova — individua un file tra le istantanee
+      operation-diff: diff — confronta due istantanee
+      operation-check: controllo — verifica l'integrità del repository
+      operation-stats: statistiche — dimensione di un'istantanea o del repository
+      operation-unlock: sbloccare — rimuovere serrature obsolete
+      title-snapshot: Selezione istantanea
+      label-snapshot-id: ID istantanea
+      label-subfolder: Solo questa sottocartella dello snapshot
+      label-plan: ID piano schienale
+      label-instance: ID istanza schienale
+      label-filter-host: Ospite
+      label-tags: Etichette aggiuntive
+      placeholder-tag: manuale
+      label-filter-paths: Percorsi
+      placeholder-path: /home/me/documents
+      hint-tags: Backrest etichetta le istantanee create con "plan:" e "created-by:",
+        seguiti dagli ID del piano e dell'istanza. I tag all'interno di un
+        singolo --tag vengono combinati con l'operatore AND, mentre i flag --tag
+        ripetuti vengono combinati con l'operatore OR, in modo che il piano e
+        l'istanza rimangano in un unico flag e ogni tag aggiuntivo ottenga il
+        proprio.
+      title-restore-options: Opzioni di ripristino
+      label-target: Certificazione di destinazione
+      label-include: Ripristina solo questi percorsi o modelli
+      placeholder-include: /home/me/documents/**/*.pdf
+      label-exclude: Escludi questi percorsi o modelli
+      placeholder-exclude: "**/node_modules"
+      label-overwrite: Sovrascrivi i file esistenti
+      overwrite-default: impostazione predefinita restic (sempre)
+      overwrite-always: Sempre
+      overwrite-if-changed: se modificato
+      overwrite-if-newer: se più recente
+      overwrite-never: Mai
+      label-case-insensitive: modelli che non fanno distinzione tra maiuscole e minuscole
+      label-dry-run: Prova a secco
+      label-verify: Verifica i file ripristinati
+      label-sparse: Scrivere file sparse
+      label-delete: Elimina i file mancanti nello snapshot
+      title-dump-options: Opzioni di dump
+      label-dump-path: File o cartella all'interno dell'istantanea
+      label-archive: Formato di archivio
+      archive-none: File non elaborato
+      archive-tar: ordini
+      archive-zip: lutto
+      label-output-file: Reindirizzamento a un file locale (facoltativo)
+      hint-dump: Il comando dump estrae un singolo file o una cartella direttamente
+        dal repository, quindi non è necessario ripristinare un'intera snapshot
+        per recuperare un singolo file di configurazione.
+      title-mount-options: Opzioni di montaggio
+      label-mount-point: Punto di appoggio
+      label-allow-other: Consentire ad altri utenti di accedere al montaggio
+      title-ls-options: Opzioni elenco
+      label-ls-directory: Elenco dei destinatari (facoltativo)
+      label-long: Elenco esteso
+      label-recursive: Ricorsivo
+      title-find-options: Trova opzioni
+      label-find-pattern: Modello
+      label-restrict-snapshot: Cerca solo nell'istantanea selezionata
+      title-diff-options: Opzioni diverse
+      label-diff-snapshot: Confronta con l'istantanea
+      label-metadata: Segnala anche le modifiche ai metadati
+      title-snapshots-options: Opzioni per le istantanee
+      label-compact: Uscita compatta
+      title-check-options: Opzioni di verifica
+      label-read-data-subset: Sottoinsieme di dati di lettura
+      label-read-data: Leggere e verificare ogni file di pacchetto
+      label-check-unused: Segnala i blob non utilizzati
+      label-with-cache: Utilizza la cache esistente
+      title-stats-options: Opzioni statistiche
+      label-stats-mode: Modalità di conteggio
+      stats-restore-size: restore-size — dimensione di un ripristino
+      stats-files-by-contents: file-per-contenuto — file unici
+      stats-raw-data: dati grezzi — dimensione prima della deduplicazione
+      stats-blobs-per-file: blob per file
+      label-stats-all: Tutte le istantanee
+      title-unlock-options: Sblocca le opzioni
+      label-remove-all: Rimuovere tutti i lucchetti, compresi quelli in uso.
+      title-global-options: Opzioni globali
+      label-cache-dir: Directory della cache
+      label-limit-download: Limite di download (KiB/s)
+      label-retry-lock: Riprovare ad aprire un repository bloccato per
+      label-extra-options: Opzioni di backend (-o)
+      placeholder-extra-option: s3.connessioni=4
+      label-extra-arguments: Argomenti aggiuntivi (inclusi così come sono)
+      label-no-lock: --no-lock
+      label-no-cache: --no-cache
+      label-insecure-tls: --tls non sicuro
+      label-json: --json
+      label-quiet: --Tranquillo
+      label-verbose: --verbose
+      title-output: Comando generato
+      label-include-environment: Includi la configurazione dell'ambiente
+      label-multiline: Un argomento per riga
+      button-reset: Ripristina le impostazioni predefinite
+      warning-history: "Le esportazioni segnaposto rimangono nella cronologia della
+        shell una volta inserite: preferisci le opzioni predefinite oppure
+        cancella la cronologia in seguito."
+      warning-target: Il comando restore ricrea il percorso completo di ogni file
+        nella directory target, quindi /etc/hosts finisce nella sottocartella
+        etc/hosts della directory target.
+      warning-delete: --delete rimuove i file della directory di destinazione che non
+        sono presenti nello snapshot. Prova prima con --dry-run.
+      warning-restic-version: Le opzioni --dry-run, --delete e --overwrite richiedono
+        restic 0.17 o versioni successive.
+      warning-mount: Il comando mount richiede FUSE, espone gli snapshot in sola
+        lettura e continua a funzionare finché non lo si arresta con Ctrl-C.
+      title-walkthrough: Procedura di recupero
+      hint-walkthrough: La sequenza usuale quando rimane solo il repository, costruito
+        a partire dalle impostazioni sopra indicate.
+      walkthrough-snapshots: Elenca le istantanee del repository
+      walkthrough-find: Individua l'istantanea che contiene il file di cui hai bisogno
+      walkthrough-ls: Elenca i file dello snapshot selezionato
+      walkthrough-restore: Ripristina solo i file necessari
+      walkthrough-mount: Oppure sfoglia il repository e copia i file manualmente
+      title-backrest: Foglio riassuntivo dello schienale
+      table-item: Articolo
+      table-value: Percorso o formato predefinito (immagine Docker tra parentesi)
+      backrest-config: File di configurazione contenente l'URI del repository, la sua
+        password e le variabili d'ambiente del backend.
+      backrest-data: Directory dati
+      backrest-binary: Restic binario scaricato da Backrest
+      backrest-plan-tag: Etichetta identificativa del piano
+      backrest-instance-tag: Etichetta che identifica l'istanza
+      hint-backrest: "Un repository Backrest è un semplice repository restic: se
+        l'interfaccia web non è disponibile, legge l'URI e la password dal file
+        config.json e lo utilizza con il binario restic Backrest già scaricato."
+  epc-qrcode-generator:
+    title: Generatore di codici QR EPC
+    description: Genera un codice QR del Consiglio europeo dei pagamenti (EPC) per
+      avviare un bonifico SEPA.
+    externalAccess: nulla
+    texts:
+      text-copied-to-clipboard: Copiato negli appunti
+      label-v1: V1
+      label-v2: V2
+      label-beneficiary-name: "Nome del beneficiario:"
+      placeholder-beneficiary-name: Nome del beneficiario
+      label-account-iban: "Conto (IBAN):"
+      placeholder-fr76: FR76...
+      label-bic: "BIC:"
+      placeholder-bank-bic-optional: Codice BIC bancario (facoltativo)
+      label-amount-eur: "Importo (EUR):"
+      label-payment-reference: "Riferimento di pagamento:"
+      placeholder-optional: Opzionale
+      label-purpose: "Scopo:"
+      label-version: "Versione:"
+      label-foreground-color: "Colore di primo piano:"
+      label-background-color: "Colore di sfondo:"
+      label-qr-size: "Dimensioni del codice QR:"
+      tag-generate-qr: Genera QR
+      tag-download-qrcode: Scarica il codice QR
+      tag-copy-qrcode-text: Copia il testo del codice QR
+  url-redirection-checker:
+    title: Verificatore di reindirizzamento URL
+    description: Controlla se un URL reindirizza a un altro URL.
+    externalAccess: nulla
+    texts:
+      label-get: OTTENERE
+      label-head: TESTA
+      label-url: "URL:"
+      placeholder-https-example-com: https://example.com
+      label-method: "Metodo:"
+      label-user-agent: "User Agent:"
+      label-max-hops: "Massimo salto:"
+      label-include-body-preview: Includi anteprima del corpo
+      label-preview-bytes: "Anteprima di Byte:"
+      title-warnings: Avvertenze
+      title-summary: Riepilogo
+      label-input-url: "URL di input:"
+      label-final-url: "URL finale:"
+      label-hop-count: "Conteggio luppolo:"
+      title-redirect-chain: Catena di reindirizzamento
+      tag-inspect-redirect-chain: Ispeziona la catena di reindirizzamento
+      tag-: "-"
+      tag-url: URL
+      tag-status: Stato
+      tag-duration: Durata
+      tag-redirect: Reindirizzamento
+      tag-location: Posizione
+      tag-300-hop-status-code: = 300 && hop.status_code
+      tag-headers-body-preview: Anteprima di intestazione e corpo
+      tag-truncated: Tronco
 about:
   alltools-title: Tutti gli strumenti {toolsCount}
   tools:

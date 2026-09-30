@@ -8,31 +8,59 @@ import { generatePassword } from './password-generator.service';
 
 const { t } = useI18n();
 const length = useQueryParamOrStorage({ name: 'length', storageName: 'password-generator:length', defaultValue: 12 });
-const withLowercase = useQueryParamOrStorage({ name: 'lowercase', storageName: 'password-generator:lowercase', defaultValue: true });
-const withUppercase = useQueryParamOrStorage({ name: 'uppercase', storageName: 'password-generator:uppercase', defaultValue: true });
-const withNumbers = useQueryParamOrStorage({ name: 'numbers', storageName: 'password-generator:numbers', defaultValue: true });
-const withSymbols = useQueryParamOrStorage({ name: 'symbols', storageName: 'password-generator:symbols', defaultValue: true });
-const excludedChars = useQueryParamOrStorage({ name: 'exclude', storageName: 'password-generator:excluded-chars', defaultValue: '' });
+const withLowercase = useQueryParamOrStorage({
+  name: 'lowercase',
+  storageName: 'password-generator:lowercase',
+  defaultValue: true,
+});
+const withUppercase = useQueryParamOrStorage({
+  name: 'uppercase',
+  storageName: 'password-generator:uppercase',
+  defaultValue: true,
+});
+const withNumbers = useQueryParamOrStorage({
+  name: 'numbers',
+  storageName: 'password-generator:numbers',
+  defaultValue: true,
+});
+const withSymbols = useQueryParamOrStorage({
+  name: 'symbols',
+  storageName: 'password-generator:symbols',
+  defaultValue: true,
+});
+const excludedChars = useQueryParamOrStorage({
+  name: 'exclude',
+  storageName: 'password-generator:excluded-chars',
+  defaultValue: '',
+});
 
 const [generation, refreshPassword] = computedRefreshable(() => {
   try {
-    return { password: generatePassword({
-      length: length.value,
-      withLowercase: withLowercase.value,
-      withUppercase: withUppercase.value,
-      withNumbers: withNumbers.value,
-      withSymbols: withSymbols.value,
-      excludedChars: excludedChars.value,
-    }), error: '' };
-  }
-  catch (error) {
-    return { password: '', error: error instanceof Error ? error.message : t('tools.password-generator.texts.error-generate-password') };
+    return {
+      password: generatePassword({
+        length: length.value,
+        withLowercase: withLowercase.value,
+        withUppercase: withUppercase.value,
+        withNumbers: withNumbers.value,
+        withSymbols: withSymbols.value,
+        excludedChars: excludedChars.value,
+      }),
+      error: '',
+    };
+  } catch (error) {
+    return {
+      password: '',
+      error: error instanceof Error ? error.message : t('tools.password-generator.texts.error-generate-password'),
+    };
   }
 });
 
 const password = computed(() => generation.value.password);
 const error = computed(() => generation.value.error);
-const { copy } = useCopy({ source: password, text: t('tools.password-generator.texts.text-password-copied-to-clipboard') });
+const { copy } = useCopy({
+  source: password,
+  text: t('tools.password-generator.texts.text-password-copied-to-clipboard'),
+});
 </script>
 
 <template>

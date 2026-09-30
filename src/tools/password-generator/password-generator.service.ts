@@ -51,13 +51,18 @@ export function generatePassword(options: PasswordOptions): string {
     options.withSymbols ? characterSets.symbols : '',
   ]
     .filter(Boolean)
-    .map(characters => characters.split('').filter(character => !excludedChars.includes(character)).join(''));
+    .map((characters) =>
+      characters
+        .split('')
+        .filter((character) => !excludedChars.includes(character))
+        .join(''),
+    );
 
   if (selectedSets.length === 0) {
     throw new RangeError('Select at least one character type.');
   }
 
-  if (selectedSets.some(characters => characters.length === 0)) {
+  if (selectedSets.some((characters) => characters.length === 0)) {
     throw new RangeError('Excluded characters remove every character from an enabled type.');
   }
 

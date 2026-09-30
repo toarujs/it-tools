@@ -16,8 +16,7 @@ function startTitleAlarm(str, delay) {
   titleInterval = setInterval(() => {
     if (document.title.startsWith('⏰')) {
       document.title = `${str} - IT Tools`;
-    }
-    else {
+    } else {
       document.title = '⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰ - IT Tools';
     }
   }, delay);
@@ -26,8 +25,7 @@ function startTitleAlarm(str, delay) {
 function stopTitleAlarm() {
   if (titleInterval) {
     clearInterval(titleInterval);
-  }
-  else {
+  } else {
     alert('Error:  something went wrong when trying to stop the title alarm.');
   }
   document.title = 'Pomodoro Timer - IT Tools';
@@ -37,8 +35,7 @@ function getNextTimerMode(state) {
   const currentMode = state.progress[state.progress.length - 1];
   if (currentMode === 'workInterval') {
     return state.progress.length === state.shortBreakCount * 2 + 1 ? 'longBreak' : 'shortBreak';
-  }
-  else {
+  } else {
     return 'workInterval';
   }
 }
@@ -101,8 +98,7 @@ function onTimerFinished(state, alarmPlayer) {
 function setupNextTimerMode(state) {
   if (state.progress.length === state.shortBreakCount * 2 + 2) {
     startOver(state);
-  }
-  else {
+  } else {
     const timerMode = state.progress[state.progress.length - 1];
     state.time = state[timerMode] * 60000;
     state.counter = msToString(state.time);

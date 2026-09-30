@@ -12,7 +12,7 @@ const rightUrl = ref('');
 const leftImage = ref<string | null>(null);
 const rightImage = ref<string | null>(null);
 const viewerContainer = ref<HTMLDivElement | null>(null);
-  let viewerInstance: { mount: () => void } | null = null;
+let viewerInstance: { mount: () => void } | null = null;
 
 function cleanupObjectUrls() {
   if (leftImage.value && leftImage.value.startsWith('blob:')) {
